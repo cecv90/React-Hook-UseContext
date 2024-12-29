@@ -1,24 +1,21 @@
-/*import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import './App.css';
 
-const ThemeContext = createContext(null);
+const ThemeContext = createContext('light');
 
 const App = ()  => {
-  const [theme, setTheme] = useState('light?')
+  const [theme, setTheme] = useState('light')
   return (
+    <div className='center-container'>
     <ThemeContext.Provider value={theme}>
       <Form />
-      <label>
-        <input type='checkbox'
-        checked={theme === 'dark'}
-        onChange={e => {
-          setTheme(e.target.checked?'dark':'light')
-        }}
-        aria-label='Toggle dark mode'
-        />
-      </label>
     </ThemeContext.Provider>
-
+    <Button onClick={() => { 
+      setTheme(theme === 'dark' ? 'light' : 'dark');
+    }}>
+      Toggle theme
+    </Button>
+    </div>
   )
 }
 
@@ -42,66 +39,17 @@ const Panel = ({title, children}) =>{
   )
 }
 
-const Button = ({children}) =>{
+const Button = ({children, onClick}) =>{
   const theme=useContext(ThemeContext);
   const className = 'button-' + theme;
   return(
-    <button className={className}>
+    <button 
+    className={className}
+    onClick={onClick}
+    >
       {children}
     </button>
   )
 }
-export default App;*/
+export default App;
 
-import { createContext, useContext, useState } from 'react';
-
-const ThemeContext = createContext(null);
-
-export default function MyApp() {
-  const [theme, setTheme] = useState('light');
-  return (
-    <ThemeContext.Provider value={theme}>
-      <Form />
-      <label>
-        <input
-          type="checkbox"
-          checked={theme === 'dark'}
-          onChange={(e) => {
-            setTheme(e.target.checked ? 'dark' : 'light')
-          }}
-        />
-        Use dark mode
-      </label>
-    </ThemeContext.Provider>
-  )
-}
-
-function Form({ children }) {
-  return (
-    <Panel title="Welcome">
-      <Button>Sign up</Button>
-      <Button>Log in</Button>
-    </Panel>
-  );
-}
-
-function Panel({ title, children }) {
-  const theme = useContext(ThemeContext);
-  const className = 'panel-' + theme;
-  return (
-    <section className={className}>
-      <h1>{title}</h1>
-      {children}
-    </section>
-  )
-}
-
-function Button({ children }) {
-  const theme = useContext(ThemeContext);
-  const className = 'button-' + theme;
-  return (
-    <button className={className}>
-      {children}
-    </button>
-  );
-}
